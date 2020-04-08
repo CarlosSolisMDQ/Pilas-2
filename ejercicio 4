@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+int main()
+{
+    //encontrar el menor elemento de una pila y guardarlo en otra.
+
+    char letra;
+    Pila a, b;
+    inicpila(&a);
+    inicpila(&b);
+
+    printf("si desea terminar la carga pulse *\n");
+    do {
+        fflush(stdin);
+        leer(&a);
+        scanf("%c", &letra);
+        if (letra == '*') {
+            desapilar(&a);
+        }
+    } while (letra != '*');
+
+    mostrar(&a);
+
+    apilar(&b, tope(&a));
+
+    while (!pilavacia(&a)) {
+        if (tope(&b) < tope(&a)) {
+            desapilar(&a);
+        } else {
+            desapilar(&b);
+            apilar(&b, desapilar(&a));
+        }
+    }
+
+
+    mostrar(&b);
+
+
+    return 0;
+}
