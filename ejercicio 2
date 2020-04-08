@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+int main()
+{
+    //contar los elementos de una pila usando variables
+    
+    char letra;
+    int contador = 0;
+    Pila a;
+    inicpila(&a);
+
+    do {
+        contador++;
+        leer(&a);
+        scanf("%c", &letra);
+        if (letra == '*'){
+            desapilar(&a);
+            contador--;
+        }
+
+    } while (letra != '*');
+
+    printf("\nla pila tiene %d elementos.", contador);
+
+    mostrar(&a);
+    return 0;
+}
