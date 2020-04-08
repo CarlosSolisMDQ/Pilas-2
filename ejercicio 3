@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+int main()
+{
+    //obtener el promedio de los elementos de una pila
+    
+    char letra;
+    int contador = 0;
+    int acumulador = 0;
+    float promedio = 0;
+    Pila a;
+    inicpila(&a);
+
+
+    do {
+        fflush(stdin);
+        printf("si no desea ingresar mas datos pulse *\n");
+        leer(&a);
+        scanf("%c", &letra);
+
+        if (letra == '*') {
+            desapilar(&a);
+        }
+
+    } while (letra != '*');
+
+    while (!pilavacia(&a)) {
+        contador++;
+        acumulador += desapilar(&a);
+    }
+
+    promedio = acumulador/contador;
+
+
+    printf("el promedio de la pila es: %.2f", promedio);
+
+
+    return 0;
+}
