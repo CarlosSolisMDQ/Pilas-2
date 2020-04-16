@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+int main()
+{
+    //verificar si una pila dada es un palindromo.
+    char letra;
+
+    Pila pila, aux, aux2, aux3;
+    inicpila(&pila);
+    inicpila(&aux);
+    inicpila(&aux2);
+    inicpila(&aux3);
+    //leer pila.
+    do {
+            leer(&pila);
+            fflush(stdin);
+            printf("si no desea continuar pulse *:");
+            scanf("%c", &letra);
+    } while (letra != '*');
+
+    
+    //distribuir pila en dos auxiliares
+
+    while (!pilavacia(&pila)){
+        apilar(&aux2, tope(&pila));
+        apilar(&aux, desapilar(&pila));
+    }
+
+    mostrar(&aux);
+
+    //invertir una de las pilas copiandola en la original.
+    
+    while (!pilavacia(&aux)) {
+        apilar(&pila, desapilar(&aux));
+    }
+    
+    mostrar(&pila);
+
+    //verificar que una de las pilas tenga elementos y que sus topes sean iguales en cada iteracion
+    //mientras las vacio en cada loop.
+    
+    while (tope(&aux2) == tope(&pila) && !pilavacia(&pila)){
+        apilar(&aux, desapilar(&aux2));
+        apilar(&aux, desapilar(&pila));
+    }
+    //verificar que las pilas tengan elementos, si no tienen es que todos cumplieron las condiciones de igualdad.
+    
+    if (pilavacia(&pila) && pilavacia(&aux2)) {
+        printf("\nLa pila es un palindromo");
+    } else {
+        printf("\nLa pila no es un palindromo");
+    }
+    return 0;
+}
