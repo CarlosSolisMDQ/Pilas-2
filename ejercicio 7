@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+int main()
+{
+    //determinar si un elemento esta presente en una pila.
+
+    int numero = 0;
+    Pila pila, aux, elemento;
+    inicpila(&pila);
+    inicpila(&aux);
+    inicpila(&elemento);
+
+    srand(time(NULL));
+
+    for (int i = 0 ; i < 10; i++ ) {
+        numero = rand () %10;
+        apilar(&pila, numero);
+    }
+
+    mostrar(&pila);
+
+    leer(&elemento);
+
+    //desapilar toda la pila testeando cada tope.
+
+    while (!pilavacia(&pila)){
+        apilar(&aux, desapilar(&pila));
+        if (tope(&elemento) == tope(&pila)) {
+            printf("el elemento esta presente");
+            break;
+        //si el tope corriente a esta iteracion cumple la condicion se corta el bucle.
+        }
+    }
+    //si se desapilo toda la pila y no se cumplio la condicion testeo si la
+    //pila tiene elementos y defino que no hay un elemento similar
+
+    if(pilavacia(&pila)) {
+        printf("el elemento no esta presente");
+    }
+
+
+    return 0;
+}
