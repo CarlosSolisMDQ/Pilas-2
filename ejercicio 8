@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+
+int main()
+{
+    //eliminar un elemento de una pila. Al eliminarlo finalizar el recorrido y dejar todo en el mismo orden.
+    
+    
+    Pila pila, aux, elemento, basura;
+    inicpila(&pila);
+    inicpila(&aux);
+    inicpila(&elemento);
+    inicpila(&basura);
+
+
+    for (int i = 0; i < 6; i++) {
+        apilar(&pila, i);
+    }
+
+    mostrar(&pila);
+
+    leer(&elemento);
+
+
+    //iteramos por la pila mientras tenga elementos y el tope sea distinto que el numero ingresado
+    while (!pilavacia(&pila) && tope(&pila) != tope(&elemento)){
+        apilar(&aux, desapilar(&pila));
+    }
+
+    //mostrar(&pila);
+    apilar(&basura, desapilar(&pila));
+
+    //encontrado el elemento se lo desapila y se vuelve a apilar desde aux a la pila original
+
+    while (!pilavacia(&aux)) {
+        apilar(&pila, desapilar(&aux));
+    }
+
+    mostrar(&pila);
+
+    return 0;
+}
