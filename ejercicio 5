@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+
+
+int main()
+{
+    //ingresar un elemento en una pila ordenada de menor (tope) a mayor de forma que se conserve el orden.
+
+
+    Pila ordenada, aux, nuevoValor;
+    inicpila(&ordenada);
+    inicpila(&aux);
+    inicpila(&nuevoValor);
+
+
+
+    for (int i = 0; i < 10; i++) {
+        apilar(&ordenada, i);
+
+    }
+
+    mostrar(&ordenada);
+
+    leer(&nuevoValor);
+
+
+    //filtro doble, miro que la pila tenga elementos y que el valor ingresado sea menor que el elemento recorrido en la iteracion.
+
+    while (!pilavacia(&ordenada) && tope(&nuevoValor) < tope(&ordenada)) {
+            apilar(&aux, desapilar(&ordenada));
+    }
+
+    //apilo el valor ingresado es la pila original.
+
+    apilar(&ordenada, desapilar(&nuevoValor));
+
+    //vuelvo a apilar lo que saque en la pila original.
+
+    while (!pilavacia(&aux)) {
+        apilar(&ordenada, desapilar(&aux));
+    }
+
+
+    mostrar(&ordenada);
+
+
+    return 0;
+}
