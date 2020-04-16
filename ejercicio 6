@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+
+int main()
+{
+    //usando lo resuelto en el ejercicio 4 pasar de una pila a otra de tal forma que queden ordenados.
+
+    int counter = 0;
+    Pila pilaDesordenada, pilaOrdenada, aux, aux2;
+
+    inicpila(&pilaDesordenada);
+    inicpila(&pilaOrdenada);
+    inicpila(&aux);
+    inicpila(&aux2);
+
+    srand (time(NULL));
+    //un bucle para hacer una pila desordenada.
+
+    for (int i = 0 ; i < 6 ; i++){
+        int numero = rand () % 10;
+        apilar(&pilaDesordenada, numero);
+    }
+
+    mostrar(&pilaDesordenada);
+
+    //reutilizo el algoritmo del ejercicio 4 para buscar el menor elemento
+
+    apilar(&aux, desapilar(&pilaDesordenada));
+
+    while (counter != 6) {
+            //anido el algoritmo de busqueda de menor dentro de otro bucle controlado por la extension que le di a la primer pila.
+        while (!pilavacia(&pilaDesordenada)) {
+            if (tope(&aux) < tope(&pilaDesordenada)) {
+                apilar(&aux2, desapilar(&pilaDesordenada));
+            } else {
+                //apilar(&aux2, desapilar(&aux));
+                apilar(&aux, desapilar(&pilaDesordenada));
+
+            //el menor elemento queda almacenado en aux en aux 2 el resto de la pila
+            }
+        }
+        while (!pilavacia(&aux2)) {
+            apilar(&pilaDesordenada, desapilar(&aux2));
+
+        //pasamos todos los elementos sobrantes nuevamente a pilaDesordenada
+        }
+        //por ultimo apilo el menor elemento que encontre en esta iteracion en la pila ordenada y sumo 1 al contador del bucle.
+        apilar(&pilaOrdenada, desapilar(&aux));
+
+
+
+        counter++;
+    }
+
+
+
+    mostrar(&pilaOrdenada);
+    return 0;
+}
