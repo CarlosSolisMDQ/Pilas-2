@@ -1,0 +1,124 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+Pila pila_ordenada(Pila p);
+Pila ordenamiento_intercalado(Pila a, Pila b);
+
+int main()
+{
+    //intercalar dos pilas ordenadas de forma creciente para que el resultado sea una pila ordenada de forma creciente.
+    
+    
+    Pila ordenada1, ordenada2, aux1, aux2, res;
+    inicpila(&ordenada1);
+    inicpila(&ordenada2);
+    inicpila(&aux1);
+    inicpila(&aux2);
+    inicpila(&res);
+
+
+
+    //reinicio el reloj.
+
+    srand(time(NULL));
+
+    //armo dos pilas identicas con numero random.
+
+    for(int i = 0; i < 6; i++){
+        apilar(&ordenada1, rand()%10);
+        apilar(&ordenada2, rand()%10);
+    }
+
+
+
+
+    aux1 = pila_ordenada(ordenada1);
+    aux2 = pila_ordenada(ordenada2);
+    res = ordenamiento_intercalado(aux1, aux2);
+
+
+    mostrar(&aux1);
+    mostrar(&aux2);
+    mostrar(&res);
+
+
+    return 0;
+}
+
+Pila pila_ordenada(Pila pilaDesordenada) {
+
+
+
+    int counter = 0;
+    Pila  pilaOrdenada, aux, aux2;
+    //inicpila(&pilaDesordenada);pilaDesordenada,
+    inicpila(&pilaOrdenada);
+    inicpila(&aux);
+    inicpila(&aux2);
+
+//reutilizo el algoritmo del ejercicio 4 para buscar el menor elemento y del ejercicio 6
+
+    apilar(&aux, desapilar(&pilaDesordenada));
+
+    while (counter != 6) {
+            //anido el algoritmo de busqueda de menor dentro de otro bucle controlado por la extension que le di a la primer pila.
+        while (!pilavacia(&pilaDesordenada)) {
+            if (tope(&aux) < tope(&pilaDesordenada)) {
+                apilar(&aux2, desapilar(&pilaDesordenada));
+            } else {
+                //apilar(&aux2, desapilar(&aux));
+                apilar(&aux, desapilar(&pilaDesordenada));
+
+            //el menor elemento queda almacenado en aux en aux 2 el resto de la pila
+            }
+        }
+        while (!pilavacia(&aux2)) {
+            apilar(&pilaDesordenada, desapilar(&aux2));
+
+        //pasamos todos los elementos sobrantes nuevamente a pilaDesordenada
+        }
+        //por ultimo apilo el menor elemento que encontre en esta iteracion en la pila ordenada y sumo 1 al contador del bucle.
+        apilar(&pilaOrdenada, desapilar(&aux));
+
+
+
+        counter++;
+
+
+    }
+    return pilaOrdenada;
+}
+
+Pila ordenamiento_intercalado(Pila a, Pila b){
+    Pila result, res2;
+    inicpila(&result);
+    inicpila(&res2);
+
+    //armo un funcion para ordenar de manera intercalada las dos pilas random ordenadas.
+
+
+    while (!pilavacia(&a) || !pilavacia(&b)){
+            //el cicl se va a repetir mientras una de las dos pilas tenga elementos.
+        if (tope(&a) > tope(&b) || pilavacia(&b)){
+            //comparo los topes, si la condiciones es true o la pila b esta vacia entra en el if.
+            apilar(&result, desapilar(&a) );
+            //apilo en result el tope de a
+        } else {
+            if (!pilavacia(&b)){
+                //la condicion del if no se cumple (que a > b y que b no este vacia) si b tiene elementos apila el tope en result.
+                apilar(&result, desapilar(&b));
+            }
+
+        }
+    }
+    //invierto el orden de la pila.
+
+    while (!pilavacia(&result)){
+        apilar(&res2, desapilar(&result));
+    }
+
+    return res2;
+}
+
+
