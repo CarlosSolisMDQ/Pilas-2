@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+ void leer_pila2(Pila *p);
+
+int main()
+{
+    
+    //dadas dos pilas que simulan conjuntos, realizar un algoritmo que calcule la operacion de union.
+    
+    Pila A, B, C, aux, aux2, result;
+    inicpila(&A);
+    inicpila(&B);
+    inicpila(&C);
+    inicpila(&aux);
+    inicpila(&aux2);
+    inicpila(&result);
+
+    srand(time(NULL));
+
+    leer_pila2(&A);
+    printf("\n Ingrese el segundo conjunto:\n");
+
+    leer_pila2(&B);
+
+
+    mostrar(&A);
+    mostrar(&B);
+
+    while (!pilavacia(&A)){
+        if (!pilavacia(&B)){
+            while (!pilavacia(&B)){
+                if (tope(&A) == tope(&B)){
+                    apilar(&aux2, desapilar(&A));
+                } else {
+                    apilar(&aux, desapilar(&B));
+                }
+            }
+            while (!pilavacia(&aux)) {
+                apilar(&B, desapilar(&aux));
+            }
+        }
+        if (!pilavacia(&A)){
+            apilar(&result, desapilar(&A));
+        }
+
+    }
+    while (!pilavacia(&B)) {
+        apilar(&result, desapilar(&B));
+    }
+
+
+    mostrar(&result);
+
+
+    return 0;
+}
+
+void leer_pila2(Pila *p) {
+    char letra = '*';
+    do {
+            printf("ingrese los elemetos del conjunto: \n");
+            leer(p);
+            fflush(stdin);
+            printf("si desea continuar ingrese s:");
+            scanf("%c", &letra);
+    } while (letra == 's');
+
+}
