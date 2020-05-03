@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+
+
+
+int main()
+{
+
+/*
+suponer un juego de cartas en que cada mano se reparten dos cartas por jugador. un jugador gana la mano cuando
+la suma de sus cartas es mayor que las del contrario, y al hacerlo colocar todas las cartas (las de los dos jugadores)
+en la pila de puntos.
+en caso de empate gana siempre el jugador 1, simular la ejecucion del juego de tal manera que la pila mazo (con un
+numero de elementos multiplo de 4, disdribuya las cartas entre los dos jugadores como si hubieran jugado. Utilizar
+las pilas que crea conveniente.
+*/
+
+    Pila mazo, jugador1, jugador2;
+    char letra = 'q';
+    inicpila(&mazo);
+
+//voy a harcodear la pila -mazo- porque me voy a morir de carcer al dedo si sigo tipeando.
+
+
+//mano numero 3
+    apilar(&mazo, 2);
+    apilar(&mazo, 4);
+    apilar(&mazo, 5);
+    apilar(&mazo, 1);
+//mano numero 2
+    apilar(&mazo, 8);
+    apilar(&mazo, 9);
+    apilar(&mazo, 1);
+    apilar(&mazo, 2);
+//mano numero 1
+    apilar(&mazo, 20);
+    apilar(&mazo, 1);
+    apilar(&mazo, 7);
+    apilar(&mazo, 8);
+
+    inicpila(&jugador1);
+    inicpila(&jugador2);
+    int sumatoria1 = 0;
+    int sumatoria2 = 0;
+    int numeroDeMano = 0;
+    int puntos1 = 0;
+    int puntos2 = 0;
+    int puntosTotales1 = 0;
+    int puntosTotales2 = 0;
+
+    printf("pila MAZO:\n");
+
+    mostrar(&mazo);
+
+    while (!pilavacia(&mazo)){
+          numeroDeMano++;
+          printf("\nrepartiendo mano numero %i...", numeroDeMano);
+          for (int i = 0 ; i < 2 ; i++){
+
+              apilar(&jugador1, desapilar(&mazo));
+              sumatoria1 += tope(&jugador1);
+              apilar(&jugador2, desapilar(&mazo));
+              sumatoria2 += tope(&jugador2);
+
+          }
+          if (sumatoria1 >= sumatoria2) {
+              printf("\n\ngana el jugador 1\n");
+              puntos1 = sumatoria1 + sumatoria2;
+              puntosTotales1 += puntos1;
+              printf("\nEl jugador 1 tiene %d puntos\n", puntos1);
+          } else {
+              printf("\n\ngana el jugador 2\n");
+              puntos2 = sumatoria1 + sumatoria2;
+              puntosTotales2 += puntos2;
+              printf("\nEl jugador 2 tiene %d puntos\n", puntos2);
+          }
+
+
+          sumatoria1 = 0;
+          sumatoria2 = 0;
+    }
+    if (pilavacia(&mazo)){
+        printf("\nno hay mas cartas en el mazo\n");
+        printf("\nEl jugador 1 tiene %i puntos totales\n", puntosTotales1);
+        printf("\nEl jugador 2 tiene %i puntos totales\n", puntosTotales2);
+        if (puntosTotales1 > puntosTotales2){
+            printf("\nEl jugador 1 gana la ronda\n");
+        } else {
+            printf("\nEl jugador 2 gana la ronda\n");
+        }
+
+    }
+
+    return 0;
+}
