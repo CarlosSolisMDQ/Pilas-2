@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+//dada la pila origen ordenarla en forma ascendente con el metodo de insercion.
+
+
+int main()
+{
+    Pila origen, aux, aux2;
+    inicpila(&origen);
+    inicpila(&aux);
+    inicpila(&aux2);
+
+    char letra = 'p';
+
+     do {
+            leer(&origen);
+            fflush(stdin);
+            printf("si no desea continuar pulse *:");
+            scanf("%c", &letra);
+    } while (letra != '*');
+
+    //entramos a un bucle de ordenamiento
+
+
+    apilar(&aux, desapilar(&origen));
+
+    //paso el primer elemento a aux para comparar mientras existan elementos en la pila
+
+    while(!pilavacia(&origen)){
+
+    //si el tope de la pila origen es mayor o igual al elemento que saque apila un elemento en aux.
+
+         if(tope(&origen) >= tope(&aux)){
+                apilar(&aux, desapilar(&origen));
+         } else {
+    //si el tope de aux es mayor apilo en aux2 el tope de origen
+                apilar(&aux2, desapilar(&origen));
+    //paso todos los elementos que tenga en aux(los mayores o iguales) de nuevo a origen;
+                while(!pilavacia(&aux)) {
+                    apilar(&origen, desapilar(&aux));
+                }
+    //por ultimo paso el elemento que me quedo en aux2 a aux
+                apilar(&aux, desapilar(&aux2));
+         }
+    }
+
+    //si llegamos aca es porque todos los elementos quedaron apilados en aux, 
+    //entonces salimos del while y nos toca devolver todo a origen
+
+    while(!pilavacia(&aux))
+    {
+        apilar(&origen, desapilar(&aux));
+    }
+    
+    //revisar dibujo esquematico en el cuaderno.
+
+
+    mostrar(&origen);
+
+
+    return 0;
+}
